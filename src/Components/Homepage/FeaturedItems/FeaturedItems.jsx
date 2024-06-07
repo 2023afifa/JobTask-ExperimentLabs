@@ -6,7 +6,7 @@ const FeaturedItems = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/decoritems")
+        fetch("https://homedecorserver.vercel.app/decoritems")
             .then(res => res.json())
             .then(data => setItems(data))
     }, [])
@@ -22,7 +22,7 @@ const FeaturedItems = () => {
                 }
             </div>
             <div className='text-center'>
-                <Link href="/items">
+                <Link to="/items">
                     <button className='bg-slate-800 text-slate-200 px-5 py-2 rounded'>See All Items</button>
                 </Link>
             </div>

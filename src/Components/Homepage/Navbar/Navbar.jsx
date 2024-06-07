@@ -1,12 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
+
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        logOut()
+            .then(() => {
+                console.log("Logged out successfully");
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
 
     const navLink =
         <>
             <li><NavLink className="mr-2" to="/">Home</NavLink></li>
-            <li><NavLink className="mr-2" to="/items">Available Items</NavLink></li>
-            <li><NavLink className="mr-2" to="/cart">My Cart</NavLink></li>
+            <li><NavLink className="mr-2" to="/items">All Items</NavLink></li>
+            <li><NavLink className="mr-2" to="/carts">My Cart</NavLink></li>
         </>
 
     return (
@@ -25,6 +39,18 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content right-3 z-[1] p-1 shadow bg-base-100 rounded-box w-28">
                             {navLink}
                         </ul>
+                        {
+                            user ?
+                                <>
+                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-8 md:w-10 rounded-full">
+                                            <img src={user.photoURL} />
+                                        </div>
+                                    </label>
+                                    <button onClick={handleLogout} className="bg-transparent border-none text-lg p-1">Log Out</button>
+                                </>
+                                : <Link to="/login"><button className="btn bg-transparent border-none text-lg">Login</button></Link>
+                        }
                     </div>
                 </div>
                 <div className="navbar-end hidden md:flex">
@@ -33,6 +59,18 @@ const Navbar = () => {
                             {navLink}
                         </ul>
                     </div>
+                    {
+                        user ?
+                            <>
+                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-8 md:w-10 rounded-full">
+                                        <img src={user.photoURL} />
+                                    </div>
+                                </label>
+                                <button onClick={handleLogout} className="bg-transparent border-none text-lg p-1">Log Out</button>
+                            </>
+                            : <Link to="/login"><button className="btn bg-transparent border-none text-lg">Login</button></Link>
+                    }
                 </div>
             </div>
         </div>
